@@ -55,6 +55,7 @@ export default [
           ]
         }
       ],
+      "max-len": ["warn", { "code": 120 }]
     },
   },
 ];
