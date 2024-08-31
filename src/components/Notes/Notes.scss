@@ -1,0 +1,80 @@
+.notes {
+  position: relative;
+  width: 100%;
+  min-height: 600px;
+  height: 100%;
+
+  &-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-weight: 400 !important;
+    margin: 0 !important;
+  }
+
+  &-card {
+    position: absolute;
+    width: 350px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    border-color: var(--gray-200);
+
+    & .ant-typography {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 11px;
+      cursor: pointer;
+      opacity: 0;
+      color: var(--gray-400);
+      transition: opacity 0.3s ease;
+
+      &:hover {
+        opacity: 1;
+      }
+    }
+
+    &:hover {
+      z-index: 5 !important;
+      box-shadow: var(--default-shadow);
+      transform: scale(1.02);
+    }
+
+    & .ant-card-head {
+      border: none;
+    }
+
+    &:first-of-type {
+      top: 20px;
+      left: 60px;
+      z-index: 1;
+    }
+
+    &:nth-of-type(2) {
+      top: 150px;
+      left: 40px;
+      z-index: 2;
+    }
+
+    &:last-of-type {
+      top: 280px;
+      left: 20px;
+      z-index: 3;
+    }
+
+    & .ant-input {
+      position: relative;
+      min-height: 200px;
+      max-height: 330px;
+      z-index: 1;
+      padding: 0;
+      border: none;
+      box-shadow: none;
+      background: inherit;
+    }
+  }
+
+  ::-webkit-resizer {
+    display: none;
+  }
+}
+
+

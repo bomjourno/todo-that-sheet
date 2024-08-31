@@ -1,10 +1,13 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import { userApi } from "api";
 
+import { userApi } from "services";
+
+import appReducer from "./reducers/AppSlice";
 import userReducer from "./reducers/UserSlice";
 
 const rootReducer = combineReducers({
   userReducer,
+  appReducer,
   [userApi.reducerPath]: userApi.reducer,
 });
 

@@ -4,7 +4,7 @@ import i18next from "i18next";
 import enTranslation from "./en/translation.json";
 import ruTranslation from "./ru/translation.json";
 
-i18next.use(initReactI18next).init({
+void i18next.use(initReactI18next).init({
   lng: "en", // if you're using a language detector, do not define the lng option
   debug: true,
   resources: {
