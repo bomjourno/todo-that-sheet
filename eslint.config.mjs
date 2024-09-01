@@ -1,13 +1,13 @@
-import globals from "globals";
 import pluginJs from "@eslint/js";
-import tseslint from "typescript-eslint";
-import eslintReact from "eslint-plugin-react";
-import eslintReactRefresh from "eslint-plugin-react-refresh";
-import pluginReactHooks from "eslint-plugin-react-hooks";
-import prettierPlugin from "eslint-plugin-prettier";
 import eslintConfigPrettier from "eslint-config-prettier";
 import eslintPluginScss from "eslint-plugin-css";
+import prettierPlugin from "eslint-plugin-prettier";
+import eslintReact from "eslint-plugin-react";
+import pluginReactHooks from "eslint-plugin-react-hooks";
+import eslintReactRefresh from "eslint-plugin-react-refresh";
 import eslintPluginImports from "eslint-plugin-simple-import-sort";
+import globals from "globals";
+import tseslint from "typescript-eslint";
 
 export default [
   { files: ["**/*.{js,mjs,cjs,ts,jsx,tsx}"] },
@@ -19,7 +19,7 @@ export default [
       "react-refresh": eslintReactRefresh,
       prettier: prettierPlugin,
       scss: eslintPluginScss,
-      eslintImports: eslintPluginImports
+      eslintImports: eslintPluginImports,
     },
   },
   pluginJs.configs.recommended,
@@ -44,18 +44,21 @@ export default [
       "eslintImports/imports": [
         "warn",
         {
-          "groups": [
+          groups: [
             ["^react", "^@?\\w"],
             ["^shared", "^assets", "^router", "^services", "^stores"],
             ["^pages", "^components"],
             ["^\\u0000"],
             ["^\\.\\.(?!/?$)", "^\\.\\./?$"],
             ["^\\./(?=.*/)(?!/?$)", "^\\.(?!/?$)", "^\\./?$"],
-            ["^.+\\.s?css$"]
-          ]
-        }
+            ["^.+\\.s?css$"],
+          ],
+        },
       ],
-      "max-len": ["warn", { "code": 120 }]
+      "max-len": ["warn", { code: 120 }],
     },
+  },
+  {
+    ignores: ["eslint.config.mjs"],
   },
 ];
