@@ -2,7 +2,7 @@ import { cn } from "@bem-react/classname";
 import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 
-import { useAppSelector } from "../../shared/hooks/redux";
+import { useAppSelector } from "shared/hooks/redux";
 
 import "./MainCalendar.scss";
 
@@ -71,6 +71,7 @@ const MainCalendar = (props: IProps) => {
   return (
     <Calendar
       {...props}
+      className={cnMainCalendar()}
       value={dayjs(mainDate)}
       headerRender={customHeader}
       cellRender={cellRender}

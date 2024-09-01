@@ -1,0 +1,11 @@
+.todo {
+  padding: 10px;
+  width: 100%;
+  border-bottom: 1px solid var(--gray-400);
+
+  &_done {
+    & .ant-typography {
+      text-decoration: line-through;
+    }
+  }
+}

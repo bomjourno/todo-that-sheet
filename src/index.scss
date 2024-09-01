@@ -1,5 +1,9 @@
 @import 'assets/fonts/fonts.scss';
 
+html {
+  scrollbar-gutter: stable;
+}
+
 body {
   margin: 0;
 }

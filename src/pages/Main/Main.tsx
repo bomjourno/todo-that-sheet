@@ -1,3 +1,4 @@
+import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@bem-react/classname";
 import { Col, DatePicker, DatePickerProps, Row, Space, Typography } from "antd";
@@ -11,10 +12,17 @@ import { ReactComponent as Menu } from "assets/icons/menu.svg";
 
 import MainCalendar from "components/MainCalendar";
 import Notes from "components/Notes";
+import TodoList from "components/TodoList";
 
 import "./Main.scss";
 
 const cnMain = cn("main");
+
+const innerContent: Record<Tab, ReactNode> = {
+  [Tab.Calendar]: <MainCalendar />,
+  [Tab.AllTasks]: <TodoList />,
+  [Tab.DoneTasks]: <TodoList />,
+};
 
 const Main = () => {
   const { t } = useTranslation();
@@ -32,63 +40,58 @@ const Main = () => {
 
   return (
     <div className={cnMain()}>
-      <Space
-        className={cnMain("content-wrapper")}
-        direction={"vertical"}
-        size={"small"}
+      <Row
+        className={cnMain("header")}
+        align={"middle"}
+        justify={"space-between"}
       >
-        <Row
-          className={cnMain("content")}
-          align={"middle"}
-          justify={"space-between"}
-          wrap={false}
-        >
-          <Col xl={16}>
-            <Row align={"middle"} justify={"space-between"}>
-              <Row align={"middle"} wrap={false}>
-                <Typography.Title>
-                  {dayjs(mainDate).format("MMMM YYYY")}
-                </Typography.Title>
+        <Col className={cnMain("header-left")} xl={16}>
+          <Row align={"middle"} justify={"space-between"}>
+            <Row align={"middle"} wrap={false}>
+              <Typography.Title>
+                {dayjs(mainDate).format("MMMM YYYY")}
+              </Typography.Title>
 
-                <DatePicker
-                  allowClear={false}
-                  onChange={onChangeDate}
-                  suffixIcon={<ChevronDown />}
-                  picker="month"
-                />
-              </Row>
-
-              <Space>
-                <Typography.Text
-                  className={cnMain("tab", {
-                    active: selectedTab === Tab.AllTasks,
-                  })}
-                  onClick={() => onChangeTab(Tab.AllTasks)}
-                  children={t("tabAllTasks")}
-                />
-
-                <Typography.Text
-                  className={cnMain("tab", {
-                    active: selectedTab === Tab.Calendar,
-                  })}
-                  onClick={() => onChangeTab(Tab.Calendar)}
-                  children={t("tabCalendar")}
-                />
-              </Space>
+              <DatePicker
+                allowClear={false}
+                onChange={onChangeDate}
+                suffixIcon={<ChevronDown />}
+                picker="month"
+              />
             </Row>
-          </Col>
 
-          <Menu className={cnMain("menu")} />
-        </Row>
+            <Space>
+              <Typography.Text
+                className={cnMain("tab", {
+                  active: selectedTab === Tab.AllTasks,
+                })}
+                onClick={() => onChangeTab(Tab.AllTasks)}
+                children={t("tabAllTasks")}
+              />
 
-        <Row gutter={20}>
-          <Col xl={16}>{selectedTab === Tab.Calendar && <MainCalendar />}</Col>
+              <Typography.Text
+                className={cnMain("tab", {
+                  active: selectedTab === Tab.Calendar,
+                })}
+                onClick={() => onChangeTab(Tab.Calendar)}
+                children={t("tabCalendar")}
+              />
+            </Space>
+          </Row>
+        </Col>
 
-          <Col xl={8}>
-            <Notes />
-          </Col>
-        </Row>
-      </Space>
+        <Menu className={cnMain("menu")} />
+      </Row>
+
+      <Row className={cnMain("body")}>
+        <Col className={cnMain("body-left")} xl={16}>
+          {innerContent[selectedTab]}
+        </Col>
+
+        <Col xl={8}>
+          <Notes />
+        </Col>
+      </Row>
     </div>
   );
 };
