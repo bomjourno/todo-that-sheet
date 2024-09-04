@@ -1,5 +1,12 @@
 {
   "tabAllTasks": "All tasks",
   "tabCalendar": "Calendar",
-  "quickReminder": "Quick reminder"
+  "quickReminder": "Quick reminder",
+  "todo": {
+    "remind": "remind me",
+    "setDeadline": "set deadline",
+    "remind10": "remind in 10 minutes",
+    "remind30": "remind in 30 minutes",
+    "remind60": "remind in 60 minutes"
+  }
 }

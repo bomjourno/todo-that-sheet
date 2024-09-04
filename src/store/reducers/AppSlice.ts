@@ -3,14 +3,14 @@ import dayjs from "dayjs";
 
 import { Tab } from "shared/enum";
 
-interface IAppState {
+interface IProps {
   selectedTab: Tab;
   mainDate: string;
   isLoading: boolean;
   error: string;
 }
 
-const initialState: IAppState = {
+const initialState: IProps = {
   selectedTab: Tab.Calendar,
   mainDate: dayjs().format("MMMM YYYY"),
   isLoading: false,

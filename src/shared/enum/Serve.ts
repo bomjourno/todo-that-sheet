@@ -3,3 +3,9 @@ export enum Tab {
   AllTasks = "2",
   DoneTasks = "3",
 }
+
+export enum TodoPriority {
+  Default = "default",
+  Middle = "middle",
+  Important = "important",
+}

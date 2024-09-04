@@ -3,11 +3,13 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { userApi } from "services";
 
 import appReducer from "./reducers/AppSlice";
+import todoReducer from "./reducers/TodoSlice";
 import userReducer from "./reducers/UserSlice";
 
 const rootReducer = combineReducers({
   userReducer,
   appReducer,
+  todoReducer,
   [userApi.reducerPath]: userApi.reducer,
 });
 

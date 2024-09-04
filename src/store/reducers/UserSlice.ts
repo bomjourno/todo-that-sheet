@@ -2,13 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 import { IUser } from "shared/dto/user";
 
-interface IUserState {
+interface IProps {
   user: IUser | null;
   isLoading: boolean;
   error: string;
 }
 
-const initialState: IUserState = {
+const initialState: IProps = {
   user: null,
   isLoading: false,
   error: "",
