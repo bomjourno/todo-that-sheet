@@ -87,75 +87,74 @@ const Todo = ({
       >
         <Typography>{text}</Typography>
       </Checkbox>
+      (
+      <Row className={cnTodo("actions")} align={"middle"}>
+        {date && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <Dropdown
+              menu={{
+                items: remindOptions,
+                onClick: (e) => {
+                  console.log(e);
+                  const selectedOption = remindOptions.find(
+                    (option) => option?.key === e.key,
+                  );
 
-      {!isCompleted && (
-        <Row className={cnTodo("actions")} align={"middle"}>
-          {date && (
-            <motion.div
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.3 }}
+                  if (selectedOption && "label" in selectedOption) {
+                    setSelectedRemindOption({
+                      id: selectedOption.key?.toString() ?? "",
+                      label: selectedOption.label as string,
+                    });
+                  }
+                },
+              }}
+              trigger={["click"]}
             >
-              <Dropdown
-                menu={{
-                  items: remindOptions,
-                  onClick: (e) => {
-                    console.log(e);
-                    const selectedOption = remindOptions.find(
-                      (option) => option?.key === e.key,
-                    );
-
-                    if (selectedOption && "label" in selectedOption) {
-                      setSelectedRemindOption({
-                        id: selectedOption.key?.toString() ?? "",
-                        label: selectedOption.label as string,
-                      });
-                    }
-                  },
-                }}
-                trigger={["click"]}
+              <Space
+                className={cnTodo("btn")}
+                onClick={(e) => e.preventDefault()}
               >
-                <Space
-                  className={cnTodo("btn")}
-                  onClick={(e) => e.preventDefault()}
-                >
-                  {selectedRemindOption
-                    ? selectedRemindOption.label
-                    : t("todo.remind")}
-                </Space>
-              </Dropdown>
-            </motion.div>
-          )}
+                {selectedRemindOption
+                  ? selectedRemindOption.label
+                  : t("todo.remind")}
+              </Space>
+            </Dropdown>
+          </motion.div>
+        )}
 
-          <DatePicker
-            showTime
-            className={cnTodo("actions", { date: true })}
-            format={"DD.MM.YY HH:mm"}
-            placeholder={t("todo.setDeadline")}
-            value={date}
-            onChange={(value, dateString) => {
-              setDate(value);
-              console.log("Selected Time: ", value);
-              console.log("Formatted Selected Time: ", dateString);
-            }}
-            onOk={onConfirm}
+        <DatePicker
+          showTime
+          className={cnTodo("actions", { date: true })}
+          format={"DD.MM.YY HH:mm"}
+          placeholder={t("todo.setDeadline")}
+          value={date}
+          allowClear={false}
+          onChange={(value, dateString) => {
+            setDate(value);
+            console.log("Selected Time: ", value);
+            console.log("Formatted Selected Time: ", dateString);
+          }}
+          onOk={onConfirm}
+        />
+
+        <Row className={cnTodo("actions", { icons: true })} align={"middle"}>
+          <BookMarkIcon
+            className={cnTodo("icon", {
+              middle: priority === TodoPriority.Middle,
+              important: priority === TodoPriority.Important,
+            })}
+            onClick={() => setPriority(priorityChanger.current.next().value)}
           />
-
-          <Row className={cnTodo("actions", { icons: true })} align={"middle"}>
-            <BookMarkIcon
-              className={cnTodo("icon", {
-                middle: priority === TodoPriority.Middle,
-                important: priority === TodoPriority.Important,
-              })}
-              onClick={() => setPriority(priorityChanger.current.next().value)}
-            />
-            <TrashIcon
-              className={cnTodo("icon")}
-              onClick={() => removeTask(id)}
-            />
-          </Row>
+          <TrashIcon
+            className={cnTodo("icon")}
+            onClick={() => removeTask(id)}
+          />
         </Row>
-      )}
+      </Row>
     </motion.div>
   );
 };

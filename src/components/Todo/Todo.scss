@@ -26,6 +26,7 @@
         }
 
         & .ant-picker-clear {
+          width: fit-content;
           left: 0;
         }
       }
@@ -58,6 +59,7 @@
   }
 
   &-actions {
+    gap: 8px;
     & .ant-typography {
       text-align: right;
     }
@@ -72,8 +74,7 @@
     }
 
     &_date {
-      width: 116px;
-      margin: 0 10px 0 8px;
+      width: 100px;
     }
   }
 
