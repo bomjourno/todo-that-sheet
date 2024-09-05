@@ -1,6 +1,5 @@
 .notes {
   position: relative;
-  width: 100%;
   min-height: 600px;
   height: 100%;
 
@@ -11,11 +10,32 @@
     margin: 0 !important;
   }
 
+  &-cards-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px;
+  }
+
   &-card {
-    position: absolute;
     width: 350px;
     transition: opacity 0.3s ease, transform 0.3s ease;
     border-color: var(--gray-200);
+
+    &-wrapper {
+      position: relative;
+      width: fit-content;
+      border-radius: var(--border-radius-md);
+
+      &_active {
+        z-index: 6 !important;
+      }
+
+      &:hover {
+        z-index: 7 !important;
+        box-shadow: var(--default-shadow);
+      }
+    }
 
     & .ant-typography {
       position: absolute;
@@ -32,32 +52,8 @@
       }
     }
 
-    &:hover {
-      z-index: 5 !important;
-      box-shadow: var(--default-shadow);
-      transform: scale(1.02);
-    }
-
     & .ant-card-head {
       border: none;
-    }
-
-    &:first-of-type {
-      top: 20px;
-      left: 60px;
-      z-index: 1;
-    }
-
-    &:nth-of-type(2) {
-      top: 150px;
-      left: 40px;
-      z-index: 2;
-    }
-
-    &:last-of-type {
-      top: 280px;
-      left: 20px;
-      z-index: 3;
     }
 
     & .ant-input {

@@ -5,7 +5,7 @@ import { IUser } from "shared/dto/user";
 const userApi = createApi({
   reducerPath: "userApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "https://jsonplaceholder.typicode.com/",
+    baseUrl: "https://jsonplaceholder.typicode.com",
   }),
   endpoints: (build) => ({
     getUser: build.query<IUser[], number>({

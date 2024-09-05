@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@bem-react/classname";
-import type { MenuProps } from "antd";
+import { Button, MenuProps } from "antd";
 import {
   Checkbox,
   DatePicker,
@@ -30,20 +30,13 @@ const cnTodo = cn("todo");
 
 function* priorityToggle(): Generator<TodoPriority> {
   while (true) {
-    yield TodoPriority.Default;
     yield TodoPriority.Middle;
     yield TodoPriority.Important;
+    yield TodoPriority.Default;
   }
 }
 
-const Todo = ({
-  id,
-  text,
-  isCompleted,
-  onCheck,
-  removeTask,
-  priorityState,
-}: IProps) => {
+const Todo = ({ id, text, isCompleted, onCheck, removeTask }: IProps) => {
   const { t } = useTranslation();
   const [date, setDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<TodoPriority>(TodoPriority.Default);
@@ -57,18 +50,26 @@ const Todo = ({
     console.log("onOk: ", value);
   };
 
+  const clearDate = () => {
+    setDate(null);
+  };
+
   const remindOptions: MenuProps["items"] = [
     {
-      label: <>{t("todo.remind10")}</>,
+      label: <>{t("todo.remindNone")}</>,
       key: "0",
     },
     {
-      label: <>{t("todo.remind30")}</>,
+      label: <>{t("todo.remind10")}</>,
       key: "1",
     },
     {
-      label: <>{t("todo.remind60")}</>,
+      label: <>{t("todo.remind30")}</>,
       key: "2",
+    },
+    {
+      label: <>{t("todo.remind60")}</>,
+      key: "3",
     },
   ];
 
@@ -87,7 +88,7 @@ const Todo = ({
       >
         <Typography>{text}</Typography>
       </Checkbox>
-      (
+
       <Row className={cnTodo("actions")} align={"middle"}>
         {date && (
           <motion.div
@@ -98,8 +99,8 @@ const Todo = ({
             <Dropdown
               menu={{
                 items: remindOptions,
+
                 onClick: (e) => {
-                  console.log(e);
                   const selectedOption = remindOptions.find(
                     (option) => option?.key === e.key,
                   );
@@ -139,6 +140,11 @@ const Todo = ({
             console.log("Formatted Selected Time: ", dateString);
           }}
           onOk={onConfirm}
+          renderExtraFooter={() => (
+            <Button style={{ padding: 0 }} onClick={clearDate} type="link">
+              Reset
+            </Button>
+          )}
         />
 
         <Row className={cnTodo("actions", { icons: true })} align={"middle"}>

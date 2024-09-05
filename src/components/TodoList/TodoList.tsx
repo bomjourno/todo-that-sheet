@@ -31,28 +31,26 @@ const TodoList = () => {
   );
 
   return (
-    <>
-      <Reorder.Group
-        className={cnAllTasks()}
-        axis={"y"}
-        values={sortedTasks}
-        onReorder={setTaskList}
-      >
-        {sortedTasks.map((task) => (
-          <Reorder.Item key={task.id} value={task}>
-            <Todo
-              id={task.id}
-              text={task.text}
-              isCompleted={task.isCompleted}
-              priorityState={task.priorityState}
-              onCheck={handleTaskCompletion}
-              deadline={task.deadline}
-              removeTask={removeTask}
-            />
-          </Reorder.Item>
-        ))}
-      </Reorder.Group>
-    </>
+    <Reorder.Group
+      className={cnAllTasks()}
+      axis={"y"}
+      values={sortedTasks}
+      onReorder={setTaskList}
+    >
+      {sortedTasks.map((task) => (
+        <Reorder.Item key={task.id} value={task}>
+          <Todo
+            id={task.id}
+            text={task.text}
+            isCompleted={task.isCompleted}
+            priorityState={task.priorityState}
+            onCheck={handleTaskCompletion}
+            deadline={task.deadline}
+            removeTask={removeTask}
+          />
+        </Reorder.Item>
+      ))}
+    </Reorder.Group>
   );
 };
 

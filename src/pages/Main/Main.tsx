@@ -83,7 +83,7 @@ const Main = () => {
         <Menu className={cnMain("menu")} />
       </Row>
 
-      <Row className={cnMain("body")}>
+      <Row className={cnMain("body")} gutter={[50, 50]}>
         <Col className={cnMain("body-left")} xl={16}>
           {innerContent[selectedTab]}
         </Col>
