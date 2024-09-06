@@ -8,9 +8,10 @@ import { changeMainDate, changeTab } from "store/reducers/AppSlice";
 import { Tab } from "shared/enum";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 import { ReactComponent as ChevronDown } from "assets/icons/chevron-down.svg";
-import { ReactComponent as Menu } from "assets/icons/menu.svg";
 
+// import { ReactComponent as Menu } from "assets/icons/menu.svg";
 import MainCalendar from "components/MainCalendar";
+import Menu from "components/Menu";
 import Notes from "components/Notes";
 import TodoList from "components/TodoList";
 
@@ -80,7 +81,8 @@ const Main = () => {
           </Row>
         </Col>
 
-        <Menu className={cnMain("menu")} />
+        {/*<Menu className={cnMain("menu")} />*/}
+        <Menu />
       </Row>
 
       <Row className={cnMain("body")} gutter={[50, 50]}>

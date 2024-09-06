@@ -1,0 +1,15 @@
+.navigation {
+  padding: 25px;
+  position: absolute;
+  top: 50px;
+  width: 230px;
+  margin: 0;
+
+  li {
+    list-style: none;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+  }
+}
