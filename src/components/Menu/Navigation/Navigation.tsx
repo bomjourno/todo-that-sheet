@@ -1,5 +1,9 @@
 import { cn } from "@bem-react/classname";
 import { motion } from "framer-motion";
+import { changeTab } from "store/reducers/AppSlice";
+
+import { Tab } from "shared/enum";
+import { useAppDispatch } from "shared/hooks/redux";
 
 import MenuItem from "../MenuItem";
 
@@ -16,14 +20,20 @@ const variants = {
   },
 };
 
-const itemIds = [0, 1, 2, 3, 4];
+const Navigation = () => {
+  const dispatch = useAppDispatch();
 
-const Navigation = () => (
-  <motion.ul className={cnNavigation()} variants={variants}>
-    {itemIds.map((i) => (
-      <MenuItem i={i} key={i} />
-    ))}
-  </motion.ul>
-);
+  const onChangeTab = (key: Tab) => {
+    dispatch(changeTab(key));
+  };
+
+  return (
+    <motion.ul className={cnNavigation()} variants={variants}>
+      <MenuItem onClick={() => onChangeTab(Tab.Profile)} text={"Profile"} />
+      <MenuItem onClick={() => onChangeTab(Tab.Calendar)} text={"Calendar"} />
+      <MenuItem onClick={() => onChangeTab(Tab.AllTasks)} text={"All Tasks"} />
+    </motion.ul>
+  );
+};
 
 export default Navigation;

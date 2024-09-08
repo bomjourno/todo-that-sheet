@@ -19,7 +19,7 @@
 
   &-card {
     width: 350px;
-    transition: opacity 0.3s ease, transform 0.3s ease;
+    transition: opacity 0.3s ease;
     border-color: var(--gray-200);
 
     &-wrapper {
@@ -28,11 +28,10 @@
       border-radius: var(--border-radius-md);
 
       &_active {
-        z-index: 6 !important;
+        z-index: 5 !important;
       }
 
       &:hover {
-        z-index: 7 !important;
         box-shadow: var(--default-shadow);
       }
     }

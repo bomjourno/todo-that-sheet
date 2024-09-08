@@ -1,0 +1,35 @@
+.profile {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  &-form {
+    margin-top: 10px;
+  }
+
+  &-input {
+    border-radius: 0;
+    border-bottom: 1px solid var(--gray-300);
+  }
+
+  .ant-form-item-explain-error {
+    font-size: 11px !important;
+  }
+
+  &-account-remove {
+    cursor: pointer;
+
+    &-wrapper {
+      display: flex;
+      align-items: center;
+      min-width: 100px;
+      max-width: 150px;
+      height: 35px;
+
+      button {
+        padding-right: 2px;
+        padding-left: 10px;
+      }
+    }
+  }
+}

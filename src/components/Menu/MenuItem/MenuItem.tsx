@@ -1,15 +1,22 @@
+import { cn } from "@bem-react/classname";
 import { motion } from "framer-motion";
+
+import "./MenuItem.scss";
+
+const cnMenuItem = cn("menuItem");
+
+interface IProps {
+  text: string;
+  onClick: VoidFunction;
+}
 
 const variants = {
   open: {
     y: 0,
     opacity: 1,
-    transition: {
-      y: { stiffness: 1000, velocity: -100 },
-    },
   },
   closed: {
-    y: 50,
+    y: 10,
     opacity: 0,
     transition: {
       y: { stiffness: 1000 },
@@ -17,18 +24,16 @@ const variants = {
   },
 };
 
-const colors = ["#FF008C", "#D309E1", "#9C1AFF", "#7700FF", "#4400FF"];
-
-const MenuItem = ({ i }: any) => {
-  const style = { border: `2px solid ${colors[i]}` };
+const MenuItem = ({ text, onClick }: IProps) => {
   return (
     <motion.li
       variants={variants}
-      whileHover={{ scale: 1.1 }}
-      whileTap={{ scale: 0.95 }}
+      onClick={onClick}
+      className={cnMenuItem()}
+      whileHover={{ scale: 1.05 }}
+      whileTap={{ scale: 0.99 }}
     >
-      <div className="icon-placeholder" style={style} />
-      <div className="text-placeholder" style={style} />
+      {text}
     </motion.li>
   );
 };

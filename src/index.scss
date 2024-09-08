@@ -38,10 +38,22 @@ code {
   --red-700: #d32f2f;
   --red-800: #c62828;
 
+  --purple-100: #e8dbff;
+  --purple-200: #c7b3ff;
+  --purple-300: #a57aff;
+  --purple-400: #8a4dff;
+  --purple-500: #7700ff;
+  --purple-600: #6b00e6;
+  --purple-700: #5d00cc;
+  --purple-800: #4f00b3;
+
   --default-shadow: var(--gray-100) 0 3px 5px;
 
   --border-radius-xs: 6px;
   --border-radius-md: 8px;
+  --border-radius-lg: 10px;
+  --border-radius-xl: 12px;
+  --border-radius-xxl: 14px;
 }
 
 ::-webkit-scrollbar {

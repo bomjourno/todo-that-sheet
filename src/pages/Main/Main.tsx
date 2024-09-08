@@ -9,10 +9,10 @@ import { Tab } from "shared/enum";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 import { ReactComponent as ChevronDown } from "assets/icons/chevron-down.svg";
 
-// import { ReactComponent as Menu } from "assets/icons/menu.svg";
 import MainCalendar from "components/MainCalendar";
 import Menu from "components/Menu";
 import Notes from "components/Notes";
+import Profile from "components/Profile";
 import TodoList from "components/TodoList";
 
 import "./Main.scss";
@@ -22,7 +22,7 @@ const cnMain = cn("main");
 const innerContent: Record<Tab, ReactNode> = {
   [Tab.Calendar]: <MainCalendar />,
   [Tab.AllTasks]: <TodoList />,
-  [Tab.DoneTasks]: <TodoList />,
+  [Tab.Profile]: <Profile />,
 };
 
 const Main = () => {
@@ -81,7 +81,6 @@ const Main = () => {
           </Row>
         </Col>
 
-        {/*<Menu className={cnMain("menu")} />*/}
         <Menu />
       </Row>
 

@@ -1,5 +1,11 @@
 import { useTranslation } from "react-i18next";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Outlet,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { ConfigProvider } from "antd";
 import enLocale from "antd/locale/en_GB";
 import ruLocale from "antd/locale/ru_RU";
@@ -26,6 +32,11 @@ const localeMap = {
   ru: ruLocale,
 };
 
+const ProtectedRoute = () => {
+  // TODO fix it
+  return true ? <Outlet /> : <Navigate to={AppNavigation.Auth} />;
+};
+
 function App() {
   const { i18n } = useTranslation();
 
@@ -36,8 +47,12 @@ function App() {
         locale={localeMap[i18n.language as keyof typeof localeMap]}
       >
         <Routes>
-          <Route path={AppNavigation.Auth} element={<Auth />} />
-          <Route path={AppNavigation.Main} element={<Main />} />
+          <Route path="/" element={<ProtectedRoute />}>
+            <Route path={AppNavigation.Auth} element={<Auth />} />
+            <Route path={AppNavigation.Main} element={<Main />} />
+          </Route>
+
+          <Route path={AppNavigation.NotFound} element={<div>Not Found</div>} />
         </Routes>
       </ConfigProvider>
     </BrowserRouter>

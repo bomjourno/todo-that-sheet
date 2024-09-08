@@ -5,6 +5,10 @@ import "./MenuToggle.scss";
 
 const cnMenuToggle = cn("menuToggle");
 
+interface IProps {
+  toggle: VoidFunction;
+}
+
 const Path = (props: any) => (
   <motion.path
     fill="transparent"
@@ -15,7 +19,7 @@ const Path = (props: any) => (
   />
 );
 
-const MenuToggle = ({ toggle }: any) => (
+const MenuToggle = ({ toggle }: IProps) => (
   <button className={cnMenuToggle()} onClick={toggle}>
     <svg width="23" height="23" viewBox="0 0 23 23">
       <Path

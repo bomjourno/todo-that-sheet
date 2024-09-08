@@ -1,4 +1,5 @@
 export enum AppNavigation {
-  Auth = "/auth",
   Main = "/",
+  Auth = "/auth",
+  NotFound = "/not-found",
 }

@@ -38,7 +38,8 @@ const Notes = () => {
                 top: !index ? 0 : (index + 1) * -40,
                 left: index === 1 ? -40 : "auto",
               }}
-              whileDrag={{ scale: 1.02 }}
+              whileDrag={{ zIndex: "5 !important" }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setActiveIndex(index)}
             >
               <Card className={cnNotes("card")}>
