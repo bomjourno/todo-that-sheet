@@ -1,0 +1,59 @@
+.auth {
+  display: flex;
+  height: 100vh;
+
+  &-left {
+    display: flex;
+    align-items: center;
+    flex-basis: 35%;
+    background: var(--gray-800);
+
+    &-title {
+      margin-left: 40px;
+      font-size: 64px !important;
+      font-weight: 400 !important;
+      text-transform: uppercase;
+      color: var(--white) !important;
+
+      span {
+        color: var(--red-500);
+      }
+    }
+  }
+
+  &-right {
+    display: flex;
+    padding-right: 25px;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+
+    &-title {
+      font-weight: 400 !important;
+      text-transform: uppercase;
+    }
+
+    &-form {
+      margin-left: 40px;
+      min-height: 430px;
+      max-width: 600px;
+
+      &-input {
+        border-radius: 0;
+        border-bottom: 1px solid var(--gray-300);
+      }
+
+      &-submit {
+        min-width: 100px;
+      }
+
+      &-sign-up {
+        color: var(--black);
+      }
+
+      .ant-form-item-explain-error {
+        font-size: 11px;
+      }
+    }
+  }
+}

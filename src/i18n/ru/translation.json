@@ -13,6 +13,7 @@
   "profile": {
     "errors": {
       "userName": "Введите имя пользователя",
+      "emailOrUserName": "Введите почту или имя пользователя",
       "emailType": "Некорректный email",
       "emailRequired": "Введите почту",
       "password": "Введите пароль"

@@ -13,6 +13,7 @@
   "profile": {
     "errors": {
       "userName": "Please input your username!",
+      "emailOrUserName": "Please input your username or email!",
       "emailType": "The input is not valid E-mail!",
       "emailRequired": "Please input your E-mail!",
       "password": "Please input your password!"

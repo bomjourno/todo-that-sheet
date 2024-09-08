@@ -43,7 +43,9 @@ const Profile = () => {
         <Form.Item<IFieldType>
           label="Username"
           name="userName"
-          rules={[{ required: true, message: "Please input your username!" }]}
+          rules={[
+            { required: true, message: t("profile.errors.userName") as string },
+          ]}
         >
           <Input className={cnProfile("input")} />
         </Form.Item>
@@ -54,7 +56,7 @@ const Profile = () => {
           rules={[
             {
               type: "email",
-              message: "The input is not valid E-mail!",
+              message: t("profile.errors.emailType") as string,
             },
             {
               required: true,
@@ -68,7 +70,9 @@ const Profile = () => {
         <Form.Item<IFieldType>
           label="Password"
           name="password"
-          rules={[{ required: true, message: "Please input your password!" }]}
+          rules={[
+            { required: true, message: t("profile.errors.password") as string },
+          ]}
         >
           <Input.Password className={cnProfile("input")} />
         </Form.Item>
@@ -107,9 +111,11 @@ const Profile = () => {
               style={{ position: "absolute" }}
             >
               <Typography.Text>Are you sure?</Typography.Text>
+
               <Button type="link" onClick={() => console.log("Confirmed!")}>
                 Yes
               </Button>
+
               <Button
                 type="link"
                 onClick={() => {
