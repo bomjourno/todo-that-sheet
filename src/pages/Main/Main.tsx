@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import { cn } from "@bem-react/classname";
 import { Col, DatePicker, DatePickerProps, Row, Space, Typography } from "antd";
 import dayjs from "dayjs";
+import { AnimatePresence, motion } from "framer-motion";
 import { changeMainDate, changeTab } from "store/reducers/AppSlice";
 
 import { Tab } from "shared/enum";
@@ -23,6 +24,12 @@ const innerContent: Record<Tab, ReactNode> = {
   [Tab.Calendar]: <MainCalendar />,
   [Tab.AllTasks]: <TodoList />,
   [Tab.Profile]: <Profile />,
+};
+
+const variants = {
+  initial: { opacity: 0, x: -10 },
+  animate: { opacity: 1, x: 0 },
+  exit: { opacity: 0, x: 10 },
 };
 
 const Main = () => {
@@ -67,16 +74,30 @@ const Main = () => {
                   active: selectedTab === Tab.AllTasks,
                 })}
                 onClick={() => onChangeTab(Tab.AllTasks)}
-                children={t("tabAllTasks")}
-              />
+              >
+                {t("tabAllTasks")}
+                {selectedTab === Tab.AllTasks && (
+                  <motion.div
+                    layoutId="underline"
+                    className={cnMain("tab-underline")}
+                  />
+                )}
+              </Typography.Text>
 
               <Typography.Text
                 className={cnMain("tab", {
                   active: selectedTab === Tab.Calendar,
                 })}
                 onClick={() => onChangeTab(Tab.Calendar)}
-                children={t("tabCalendar")}
-              />
+              >
+                {t("tabCalendar")}
+                {selectedTab === Tab.Calendar && (
+                  <motion.div
+                    layoutId="underline"
+                    className={cnMain("tab-underline")}
+                  />
+                )}
+              </Typography.Text>
             </Space>
           </Row>
         </Col>
@@ -86,7 +107,18 @@ const Main = () => {
 
       <Row className={cnMain("body")} gutter={[50, 50]}>
         <Col className={cnMain("body-left")} xl={16}>
-          {innerContent[selectedTab]}
+          <AnimatePresence mode={"wait"}>
+            <motion.div
+              key={selectedTab}
+              initial={"initial"}
+              animate={"animate"}
+              exit={"exit"}
+              variants={variants}
+              transition={{ duration: 0.1 }}
+            >
+              {innerContent[selectedTab]}
+            </motion.div>
+          </AnimatePresence>
         </Col>
 
         <Col xl={8}>

@@ -37,15 +37,9 @@
     cursor: pointer;
     font-size: 18px;
 
-    &_active {
-      &:after {
-        position: absolute;
-        content: "";
-        width: 100%;
-        left: 0;
-        bottom: -3px;
-        border-bottom: 1px solid var(--black);
-      }
+    &-underline {
+      height: 1px;
+      background-color: var(--black);
     }
   }
 

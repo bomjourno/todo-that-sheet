@@ -2,11 +2,9 @@
   position: absolute;
   top: 0;
   right: 0;
-  bottom: 0;
-  height: 400px;
-  width: 300px;
+  z-index: 10;
 
-  &_isVisible {
-    z-index: 10;
+  &_isClosed {
+    z-index: 0;
   }
 }
