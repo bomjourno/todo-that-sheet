@@ -19,7 +19,7 @@ const Menu = () => {
   return (
     <motion.nav
       initial={false}
-      className={cnMenu()}
+      className={cnMenu({ isVisible: isOpen })}
       animate={isOpen ? "open" : "closed"}
       custom={height}
       ref={containerRef}
