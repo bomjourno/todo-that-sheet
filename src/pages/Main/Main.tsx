@@ -105,7 +105,7 @@ const Main = () => {
         <Menu />
       </Row>
 
-      <Row className={cnMain("body")} gutter={[50, 50]}>
+      <Row className={cnMain("body")} gutter={[30, 30]}>
         <Col className={cnMain("body-left")} xl={16}>
           <AnimatePresence mode={"wait"}>
             <motion.div

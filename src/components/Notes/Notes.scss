@@ -1,7 +1,5 @@
 .notes {
   position: relative;
-  min-height: 600px;
-  height: 100%;
 
   &-title {
     text-align: center;
@@ -15,6 +13,7 @@
     flex-direction: column;
     align-items: center;
     margin-top: 10px;
+    max-height: 650px;
   }
 
   &-card {

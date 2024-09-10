@@ -35,8 +35,8 @@ const Notes = () => {
                 active: activeIndex === index,
               })}
               initial={{
-                top: !index ? 0 : (index + 1) * -40,
-                left: index === 1 ? -40 : "auto",
+                top: !index ? 0 : index * -100,
+                left: index === 1 ? -20 : 20,
               }}
               whileDrag={{ zIndex: "5 !important" }}
               whileTap={{ scale: 0.95 }}

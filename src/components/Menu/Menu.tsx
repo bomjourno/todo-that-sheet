@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { cn } from "@bem-react/classname";
 import { motion, useCycle } from "framer-motion";
 
@@ -13,7 +13,6 @@ const cnMenu = cn("appMenu");
 
 const Menu = () => {
   const [isOpen, toggleOpen] = useCycle(false, true);
-  const [animationEnd, setAnimationEnd] = useState(false);
   const containerRef = useRef<HTMLElement | null>(null);
   const { height } = useDimensions(containerRef);
 
@@ -37,12 +36,9 @@ const Menu = () => {
   return (
     <motion.nav
       initial={false}
-      className={cnMenu({ isClosed: !isOpen && !animationEnd })}
+      className={cnMenu({ isClosed: !isOpen })}
       animate={isOpen ? "open" : "closed"}
       custom={height}
-      onAnimationIteration={() => {
-        setAnimationEnd(isOpen);
-      }}
       ref={containerRef}
     >
       <Navigation />
