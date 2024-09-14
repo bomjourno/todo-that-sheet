@@ -11,7 +11,7 @@ import "./TodoList.scss";
 const cnAllTasks = cn("todoList");
 
 const TodoList = () => {
-  const todos = useAppSelector((state) => state.todoReducer.items);
+  const { items: todos } = useAppSelector((state) => state.todoReducer);
   const [taskList, setTaskList] = useState(todos);
 
   const handleTaskCompletion = (id: number) => {
@@ -35,6 +35,9 @@ const TodoList = () => {
       className={cnAllTasks()}
       axis={"y"}
       values={sortedTasks}
+      onChange={() => {
+        console.log("asdasd");
+      }}
       onReorder={setTaskList}
     >
       {sortedTasks.map((task) => (

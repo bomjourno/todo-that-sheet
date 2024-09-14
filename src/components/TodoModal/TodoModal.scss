@@ -1,0 +1,11 @@
+.todoModal {
+  width: 600px !important;
+
+  .ant-modal-content {
+    padding-bottom: 35px !important;
+  }
+}
+
+.ant-modal-mask {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+}

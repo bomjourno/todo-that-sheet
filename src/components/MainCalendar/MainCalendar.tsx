@@ -1,8 +1,9 @@
 import { cn } from "@bem-react/classname";
 import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
+import { toggleModal } from "store/reducers/TodoSlice";
 
-import { useAppSelector } from "shared/hooks/redux";
+import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 
 import "./MainCalendar.scss";
 
@@ -42,10 +43,16 @@ const getListData = (value: Dayjs) => {
 
 const MainCalendar = (props: IProps) => {
   const mainDate = useAppSelector((state) => state.appReducer.mainDate);
+  const dispatch = useAppDispatch();
+
+  const onToggleModal = () => {
+    dispatch(toggleModal());
+  };
+
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value);
     return (
-      <ul className={cnMainCalendar("events")}>
+      <ul onClick={onToggleModal} className={cnMainCalendar("events")}>
         {listData.map((item) => (
           <li key={item.content}>
             <Badge
@@ -61,7 +68,7 @@ const MainCalendar = (props: IProps) => {
   const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
     if (info.type === "date") return dateCellRender(current);
 
-    return info.originNode;
+    return <div onClick={() => console.log("asd")}>{info.originNode}</div>;
   };
 
   const customHeader = () => {

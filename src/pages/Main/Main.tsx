@@ -15,6 +15,7 @@ import Menu from "components/Menu";
 import Notes from "components/Notes";
 import Profile from "components/Profile";
 import TodoList from "components/TodoList";
+import TodoModal from "components/TodoModal";
 
 import "./Main.scss";
 
@@ -125,6 +126,8 @@ const Main = () => {
           <Notes />
         </Col>
       </Row>
+
+      <TodoModal />
     </div>
   );
 };

@@ -6,6 +6,7 @@ import { TodoPriority } from "shared/enum";
 interface IProps {
   items: ITodo[];
   isLoading: boolean;
+  modalIsOpen: boolean;
   error: string;
 }
 
@@ -41,15 +42,20 @@ const initialState: IProps = {
     },
   ],
   isLoading: false,
+  modalIsOpen: false,
   error: "",
 };
 
 export const todoSlice = createSlice({
   name: "todo",
   initialState,
-  reducers: {},
+  reducers: {
+    toggleModal: (state) => {
+      state.modalIsOpen = !state.modalIsOpen;
+    },
+  },
 });
 
-export const {} = todoSlice.actions;
+export const { toggleModal } = todoSlice.actions;
 
 export default todoSlice.reducer;
