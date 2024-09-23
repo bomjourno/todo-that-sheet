@@ -9,6 +9,7 @@ import { changeMainDate, changeTab } from "store/reducers/AppSlice";
 import { Tab } from "shared/enum";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 import { ReactComponent as ChevronDown } from "assets/icons/chevron-down.svg";
+import todoApi from "services/TodoApi";
 
 import MainCalendar from "components/MainCalendar";
 import Menu from "components/Menu";
@@ -35,6 +36,7 @@ const variants = {
 
 const Main = () => {
   const { t } = useTranslation();
+  const { data, isLoading } = todoApi.useGetMonthPostsQuery();
   const dispatch = useAppDispatch();
   const { selectedTab, mainDate } = useAppSelector((state) => state.appReducer);
 
@@ -43,9 +45,15 @@ const Main = () => {
     dispatch(changeMainDate(formattedDate));
   };
 
+  console.log(data);
+
   const onChangeTab = (key: Tab) => {
     dispatch(changeTab(key));
   };
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div className={cnMain()}>

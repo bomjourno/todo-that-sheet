@@ -1,9 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { IUser } from "shared/dto/user";
+import { IUserGetDto } from "shared/dto/user";
 
 interface IProps {
-  user: IUser | null;
+  user: IUserGetDto | null;
   isLoading: boolean;
   error: string;
 }
