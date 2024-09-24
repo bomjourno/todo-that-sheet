@@ -27,9 +27,12 @@ export const appSlice = createSlice({
     changeMainDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload;
     },
+    setDate(state, action: PayloadAction<string>) {
+      state.selectedDate = action.payload;
+    },
   },
 });
 
-export const { changeTab, changeMainDate } = appSlice.actions;
+export const { setDate, changeTab, changeMainDate } = appSlice.actions;
 
 export default appSlice.reducer;

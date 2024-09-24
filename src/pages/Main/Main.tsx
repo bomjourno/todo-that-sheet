@@ -1,10 +1,18 @@
 import { ReactNode } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@bem-react/classname";
-import { Col, DatePicker, DatePickerProps, Row, Space, Typography } from "antd";
+import {
+  Button,
+  Col,
+  DatePicker,
+  DatePickerProps,
+  Row,
+  Space,
+  Typography,
+} from "antd";
 import dayjs from "dayjs";
 import { AnimatePresence, motion } from "framer-motion";
-import { changeMainDate, changeTab } from "store/reducers/AppSlice";
+import { changeMainDate, changeTab, setDate } from "store/reducers/AppSlice";
 
 import { Tab } from "shared/enum";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
@@ -49,6 +57,10 @@ const Main = () => {
     dispatch(changeTab(key));
   };
 
+  const isVisibleTodayBtn =
+    !dayjs(selectedDate).isSame(dayjs(), "month") &&
+    selectedTab === Tab.Calendar;
+
   return (
     <div className={cnMain()}>
       <Row
@@ -62,13 +74,34 @@ const Main = () => {
               <Typography.Title>
                 {dayjs(selectedDate).format("MMMM YYYY")}
               </Typography.Title>
-
               <DatePicker
                 allowClear={false}
                 onChange={onChangeDate}
                 suffixIcon={<ChevronDown />}
                 picker="month"
               />
+
+              <AnimatePresence mode={"wait"}>
+                {isVisibleTodayBtn && (
+                  <motion.div
+                    key={selectedTab}
+                    initial="initial"
+                    animate="animate"
+                    exit="exit"
+                    variants={variants}
+                    transition={{ duration: 0.3, ease: "easeInOut" }} // Плавная анимация
+                  >
+                    <Button
+                      onClick={() =>
+                        dispatch(setDate(dayjs().format("MMMM YYYY")))
+                      }
+                      type="text"
+                    >
+                      Today
+                    </Button>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </Row>
 
             <Space>

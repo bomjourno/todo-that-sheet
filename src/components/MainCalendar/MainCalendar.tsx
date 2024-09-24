@@ -1,6 +1,8 @@
+import { useEffect } from "react";
 import { cn } from "@bem-react/classname";
 import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
+import { setDate } from "store/reducers/AppSlice";
 import { toggleModal } from "store/reducers/TodoSlice";
 
 import { ITodoGetDto } from "shared/dto/todo";
@@ -27,20 +29,35 @@ const getListData = (value: Dayjs, todos: ITodoGetDto[] = []) => {
 };
 
 const MainCalendar = (props: IProps) => {
-  todoApi.useGetMonthPostsQuery("");
   const selectedDate = useAppSelector((state) => state.appReducer.selectedDate);
   const { todos } = useAppSelector((state) => state.todoReducer);
 
+  const { refetch } = todoApi.useGetMonthPostsQuery(selectedDate);
+
   const dispatch = useAppDispatch();
 
-  const onToggleModal = () => {
-    dispatch(toggleModal());
+  useEffect(() => {
+    refetch();
+  }, [selectedDate]);
+
+  const onCellClick = (value: Dayjs) => {
+    dispatch(setDate(value.format("MMMM YYYY")));
+
+    if (
+      dayjs(value).isSame(selectedDate, "month") &&
+      dayjs(value).isSame(selectedDate, "year")
+    ) {
+      dispatch(toggleModal());
+    }
   };
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value, todos);
     return (
-      <ul onClick={onToggleModal} className={cnMainCalendar("events")}>
+      <ul
+        onClick={() => onCellClick(value)}
+        className={cnMainCalendar("events")}
+      >
         {listData.map((item) => (
           <li key={item.content}>
             <Badge
