@@ -11,23 +11,23 @@ import "./TodoList.scss";
 const cnAllTasks = cn("todoList");
 
 const TodoList = () => {
-  const { items: todos } = useAppSelector((state) => state.todoReducer);
+  const { todos } = useAppSelector((state) => state.todoReducer);
   const [taskList, setTaskList] = useState(todos);
 
-  const handleTaskCompletion = (id: number) => {
+  const handleTaskCompletion = (id: string) => {
     setTaskList((prevList) =>
       prevList.map((task) =>
-        task.id === id ? { ...task, isCompleted: !task.isCompleted } : task,
+        task.id === id ? { ...task, isCompleted: !task.flagged } : task,
       ),
     );
   };
 
-  const removeTask = (id: number) => {
+  const removeTask = (id: string) => {
     setTaskList((prevList) => prevList.filter((task) => task.id !== id));
   };
 
   const sortedTasks = [...taskList].sort(
-    (a, b) => (a.isCompleted ? 1 : 0) - (b.isCompleted ? 1 : 0),
+    (a, b) => (a.flagged ? 1 : 0) - (b.flagged ? 1 : 0),
   );
 
   return (
@@ -43,12 +43,8 @@ const TodoList = () => {
       {sortedTasks.map((task) => (
         <Reorder.Item key={task.id} value={task}>
           <Todo
-            id={task.id}
-            text={task.text}
-            isCompleted={task.isCompleted}
-            priorityState={task.priorityState}
+            {...task}
             onCheck={handleTaskCompletion}
-            deadline={task.deadline}
             removeTask={removeTask}
           />
         </Reorder.Item>

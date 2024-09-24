@@ -5,14 +5,14 @@ import { Tab } from "shared/enum";
 
 interface IProps {
   selectedTab: Tab;
-  mainDate: string;
+  selectedDate: string;
   isLoading: boolean;
   error: string;
 }
 
 const initialState: IProps = {
   selectedTab: Tab.Calendar,
-  mainDate: dayjs().format("MMMM YYYY"),
+  selectedDate: dayjs().format("MMMM YYYY"),
   isLoading: false,
   error: "",
 };
@@ -25,7 +25,7 @@ export const appSlice = createSlice({
       state.selectedTab = action.payload;
     },
     changeMainDate(state, action: PayloadAction<string>) {
-      state.mainDate = action.payload;
+      state.selectedDate = action.payload;
     },
   },
 });

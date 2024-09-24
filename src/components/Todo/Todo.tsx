@@ -14,16 +14,16 @@ import {
 import { Dayjs } from "dayjs";
 import { motion } from "framer-motion";
 
-import { ITodo } from "shared/dto/todo";
+import { ITodoGetDto } from "shared/dto/todo";
 import { TodoPriority } from "shared/enum";
 import { ReactComponent as BookMarkIcon } from "assets/icons/bookmark_filled.svg";
 import { ReactComponent as TrashIcon } from "assets/icons/delete.svg";
 
 import "./Todo.scss";
 
-interface IProps extends ITodo {
-  onCheck: (id: number) => void;
-  removeTask: (id: number) => void;
+interface IProps extends ITodoGetDto {
+  onCheck: (id: string) => void;
+  removeTask: (id: string) => void;
 }
 
 const cnTodo = cn("todo");
@@ -36,7 +36,7 @@ function* priorityToggle(): Generator<TodoPriority> {
   }
 }
 
-const Todo = ({ id, text, isCompleted, onCheck, removeTask }: IProps) => {
+const Todo = ({ id, title, flagged, onCheck, removeTask }: IProps) => {
   const { t } = useTranslation();
   const [date, setDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<TodoPriority>(TodoPriority.Default);
@@ -76,17 +76,17 @@ const Todo = ({ id, text, isCompleted, onCheck, removeTask }: IProps) => {
   return (
     <motion.div
       animate={{
-        opacity: isCompleted ? 0.5 : 1,
+        opacity: flagged ? 0.5 : 1,
       }}
       transition={{ duration: 0.5 }}
       className={cnTodo("wrapper")}
     >
       <Checkbox
-        className={cnTodo({ done: isCompleted })}
-        checked={isCompleted}
+        className={cnTodo({ done: flagged })}
+        checked={flagged}
         onChange={() => onCheck(id)}
       >
-        <Typography>{text}</Typography>
+        <Typography>{title}</Typography>
       </Checkbox>
 
       <Row className={cnTodo("actions")} align={"middle"}>

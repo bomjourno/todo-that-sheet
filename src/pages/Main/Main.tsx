@@ -36,7 +36,9 @@ const variants = {
 const Main = () => {
   const { t } = useTranslation();
   const dispatch = useAppDispatch();
-  const { selectedTab, mainDate } = useAppSelector((state) => state.appReducer);
+  const { selectedTab, selectedDate } = useAppSelector(
+    (state) => state.appReducer,
+  );
 
   const onChangeDate: DatePickerProps["onChange"] = (date) => {
     const formattedDate = dayjs(date).format("MMMM YYYY");
@@ -58,7 +60,7 @@ const Main = () => {
           <Row align={"middle"} justify={"space-between"}>
             <Row align={"middle"} wrap={false}>
               <Typography.Title>
-                {dayjs(mainDate).format("MMMM YYYY")}
+                {dayjs(selectedDate).format("MMMM YYYY")}
               </Typography.Title>
 
               <DatePicker

@@ -1,0 +1,51 @@
+{
+  "tasks": {
+    "responseObject": [
+      {
+        "title": "Fix inventory issue",
+        "date": "2024-09-24",
+        "priority": 100,
+        "flagged": true,
+        "id": "1d74b571-4f23-42d2-88d3-8f302c32db07",
+        "status": "ACTIVE",
+        "owner": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "createdAt": "2024-09-23T12:34:56Z",
+        "updatedAt": "2024-09-24T08:00:00Z"
+      },
+      {
+        "title": "Prepare report for meeting",
+        "date": "2024-09-25",
+        "priority": 90,
+        "flagged": false,
+        "id": "84b237be-f12c-4df9-abe1-c9d34e5f5b12",
+        "status": "ACTIVE",
+        "owner": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "createdAt": "2024-09-22T15:12:00Z",
+        "updatedAt": "2024-09-24T10:15:23Z"
+      },
+      {
+        "title": "Update client documentation",
+        "date": "2024-09-26",
+        "priority": 80,
+        "flagged": true,
+        "id": "ab54f72c-8bb1-4e45-967e-6fa83cfb0d9d",
+        "status": "ACTIVE",
+        "owner": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "createdAt": "2024-09-21T09:50:33Z",
+        "updatedAt": "2024-09-24T11:45:12Z"
+      },
+      {
+        "title": "Review pull requests",
+        "date": "2024-09-27",
+        "priority": 70,
+        "flagged": false,
+        "id": "7c5d0243-3fd4-487a-8ef7-5f305d8b6720",
+        "status": "ACTIVE",
+        "owner": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+        "createdAt": "2024-09-20T18:25:45Z",
+        "updatedAt": "2024-09-24T09:35:20Z"
+      }
+    ]
+  }
+
+}

@@ -3,46 +3,34 @@ import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { toggleModal } from "store/reducers/TodoSlice";
 
+import { ITodoGetDto } from "shared/dto/todo";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
+import { todoApi } from "services";
 
 import "./MainCalendar.scss";
 
 type IProps = CalendarProps<Dayjs>;
 
 const cnMainCalendar = cn("mainCalendar");
-const getListData = (value: Dayjs) => {
-  let listData: { type: string; content: string }[] = []; // Specify the type of listData
-  switch (value.date()) {
-    case 8:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-      ];
-      break;
-    case 10:
-      listData = [
-        { type: "warning", content: "This is warning event." },
-        { type: "success", content: "This is usual event." },
-        { type: "error", content: "This is error event." },
-      ];
-      break;
-    case 15:
-      listData = [
-        { type: "warning", content: "This is warning event" },
-        { type: "success", content: "This is very long usual event......" },
-        { type: "error", content: "This is error event 1." },
-        { type: "error", content: "This is error event 2." },
-        { type: "error", content: "This is error event 3." },
-        { type: "error", content: "This is error event 4." },
-      ];
-      break;
-    default:
-  }
-  return listData || [];
+const getListData = (value: Dayjs, todos: ITodoGetDto[] = []) => {
+  return todos
+    .filter((todo) => dayjs(todo.date).isSame(value, "day"))
+    .map((todo) => ({
+      type:
+        todo.priority > 80
+          ? "error"
+          : todo.priority > 50
+            ? "warning"
+            : "success",
+      content: todo.title,
+    }));
 };
 
 const MainCalendar = (props: IProps) => {
-  const mainDate = useAppSelector((state) => state.appReducer.mainDate);
+  todoApi.useGetMonthPostsQuery("");
+  const selectedDate = useAppSelector((state) => state.appReducer.selectedDate);
+  const { todos } = useAppSelector((state) => state.todoReducer);
+
   const dispatch = useAppDispatch();
 
   const onToggleModal = () => {
@@ -50,7 +38,7 @@ const MainCalendar = (props: IProps) => {
   };
 
   const dateCellRender = (value: Dayjs) => {
-    const listData = getListData(value);
+    const listData = getListData(value, todos);
     return (
       <ul onClick={onToggleModal} className={cnMainCalendar("events")}>
         {listData.map((item) => (
@@ -65,11 +53,8 @@ const MainCalendar = (props: IProps) => {
     );
   };
 
-  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current, info) => {
-    if (info.type === "date") return dateCellRender(current);
-
-    return <div onClick={() => console.log("asd")}>{info.originNode}</div>;
-  };
+  const cellRender: CalendarProps<Dayjs>["cellRender"] = (current) =>
+    dateCellRender(current);
 
   const customHeader = () => {
     return null;
@@ -79,7 +64,7 @@ const MainCalendar = (props: IProps) => {
     <Calendar
       {...props}
       className={cnMainCalendar()}
-      value={dayjs(mainDate)}
+      value={dayjs(selectedDate)}
       headerRender={customHeader}
       cellRender={cellRender}
     />

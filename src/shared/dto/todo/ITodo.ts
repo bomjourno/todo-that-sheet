@@ -1,9 +1,11 @@
-import { TodoPriority } from "shared/enum";
-
-export interface ITodo {
-  id: number;
-  text: string;
-  isCompleted: boolean;
-  deadline: string | null;
-  priorityState: TodoPriority;
+export interface ITodoGetDto {
+  id: string;
+  owner: string;
+  status: string;
+  title: string;
+  date: string;
+  priority: number;
+  flagged: boolean;
+  createdAt: string;
+  updatedAt: string;
 }

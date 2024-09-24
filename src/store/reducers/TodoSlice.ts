@@ -1,49 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-import { ITodo } from "shared/dto/todo";
-import { TodoPriority } from "shared/enum";
+import { ITodoGetDto } from "shared/dto/todo";
+import { todoApi } from "services";
 
 interface IProps {
-  items: ITodo[];
+  todos: ITodoGetDto[];
   isLoading: boolean;
   modalIsOpen: boolean;
-  error: string;
+  error: string | null;
 }
 
 const initialState: IProps = {
-  items: [
-    {
-      id: 1,
-      text: "Задача 1",
-      isCompleted: false,
-      priorityState: TodoPriority.Default,
-      deadline: "12.02.2024",
-    },
-    {
-      id: 2,
-      text: "Задача 2",
-      isCompleted: true,
-      deadline: "",
-      priorityState: TodoPriority.Middle,
-    },
-    {
-      id: 3,
-      text: "Задача 3",
-      isCompleted: false,
-      deadline: null,
-      priorityState: TodoPriority.Default,
-    },
-    {
-      id: 4,
-      text: "Задача 4",
-      isCompleted: false,
-      deadline: "",
-      priorityState: TodoPriority.Default,
-    },
-  ],
+  todos: [],
   isLoading: false,
   modalIsOpen: false,
-  error: "",
+  error: null,
 };
 
 export const todoSlice = createSlice({
@@ -53,6 +24,30 @@ export const todoSlice = createSlice({
     toggleModal: (state) => {
       state.modalIsOpen = !state.modalIsOpen;
     },
+  },
+  extraReducers: (builder) => {
+    builder.addMatcher(
+      todoApi.endpoints.getMonthPosts.matchPending,
+      (state) => {
+        state.isLoading = true;
+        state.error = null;
+      },
+    );
+    builder.addMatcher(
+      todoApi.endpoints.getMonthPosts.matchFulfilled,
+      (state, { payload }) => {
+        state.todos = payload.responseObject;
+        state.isLoading = false;
+        state.error = null;
+      },
+    );
+    builder.addMatcher(
+      todoApi.endpoints.getMonthPosts.matchRejected,
+      (state, { error }) => {
+        state.isLoading = false;
+        state.error = error?.message ?? "Something went wrong";
+      },
+    );
   },
 });
 
