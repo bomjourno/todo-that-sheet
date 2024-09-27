@@ -17,6 +17,7 @@ import { changeMainDate, changeTab, setDate } from "store/reducers/AppSlice";
 import { Tab } from "shared/enum";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 import { ReactComponent as ChevronDown } from "assets/icons/chevron-down.svg";
+import { todoApi } from "services";
 
 import MainCalendar from "components/MainCalendar";
 import Menu from "components/Menu";
@@ -47,6 +48,7 @@ const Main = () => {
   const { selectedTab, selectedDate } = useAppSelector(
     (state) => state.appReducer,
   );
+  todoApi.useGetMonthTodosQuery(null);
 
   const onChangeDate: DatePickerProps["onChange"] = (date) => {
     const formattedDate = dayjs(date).format("MMMM YYYY");

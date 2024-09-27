@@ -22,6 +22,7 @@
     "baseUrl": "src",
     "paths": {
       "@pages": ["pages/*"],
+      "@components": ["components/*"],
       "@shared": ["shared/*"],
       "@assets": ["assets/*"],
       "@store": ["store/*"],

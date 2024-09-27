@@ -18,12 +18,12 @@ import { ITodoGetDto } from "shared/dto/todo";
 import { TodoPriority } from "shared/enum";
 import { ReactComponent as BookMarkIcon } from "assets/icons/bookmark_filled.svg";
 import { ReactComponent as TrashIcon } from "assets/icons/delete.svg";
+import { todoApi } from "services";
 
 import "./Todo.scss";
 
-interface IProps extends ITodoGetDto {
-  onCheck: (id: string) => void;
-  removeTask: (id: string) => void;
+interface IProps {
+  todo: ITodoGetDto;
 }
 
 const cnTodo = cn("todo");
@@ -36,7 +36,8 @@ function* priorityToggle(): Generator<TodoPriority> {
   }
 }
 
-const Todo = ({ id, title, flagged, onCheck, removeTask }: IProps) => {
+const Todo = ({ todo }: IProps) => {
+  const { id, title, flagged } = todo;
   const { t } = useTranslation();
   const [date, setDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<TodoPriority>(TodoPriority.Default);
@@ -46,12 +47,23 @@ const Todo = ({ id, title, flagged, onCheck, removeTask }: IProps) => {
   } | null>(null);
   const priorityChanger = useRef(priorityToggle());
 
+  const [deleteTodoApi] = todoApi.useDeleteTodoMutation();
+  const [updateTodoApi] = todoApi.useUpdateTodoMutation();
+
   const onConfirm = (value: DatePickerProps["value"]) => {
     console.log("onOk: ", value);
   };
 
   const clearDate = () => {
     setDate(null);
+  };
+
+  const updateTask = async () => {
+    await updateTodoApi({ ...todo, flagged: !todo.flagged }).unwrap();
+  };
+
+  const deleteTask = async () => {
+    await deleteTodoApi(id).unwrap();
   };
 
   const remindOptions: MenuProps["items"] = [
@@ -79,12 +91,13 @@ const Todo = ({ id, title, flagged, onCheck, removeTask }: IProps) => {
         opacity: flagged ? 0.5 : 1,
       }}
       transition={{ duration: 0.5 }}
+      onClick={(e) => e.stopPropagation()}
       className={cnTodo("wrapper")}
     >
       <Checkbox
         className={cnTodo({ done: flagged })}
         checked={flagged}
-        onChange={() => onCheck(id)}
+        onChange={updateTask}
       >
         <Typography>{title}</Typography>
       </Checkbox>
@@ -155,10 +168,7 @@ const Todo = ({ id, title, flagged, onCheck, removeTask }: IProps) => {
             })}
             onClick={() => setPriority(priorityChanger.current.next().value)}
           />
-          <TrashIcon
-            className={cnTodo("icon")}
-            onClick={() => removeTask(id)}
-          />
+          <TrashIcon className={cnTodo("icon")} onClick={deleteTask} />
         </Row>
       </Row>
     </motion.div>

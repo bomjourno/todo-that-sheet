@@ -1,54 +1,48 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { cn } from "@bem-react/classname";
 import { Reorder } from "framer-motion";
 
+import { ITodoGetDto } from "shared/dto/todo";
 import { useAppSelector } from "shared/hooks/redux";
 
 import Todo from "components/Todo";
+import { Spinner } from "components/UIKit";
 
 import "./TodoList.scss";
 
-const cnAllTasks = cn("todoList");
+const cnTodoList = cn("todoList");
 
 const TodoList = () => {
-  const { todos } = useAppSelector((state) => state.todoReducer);
-  const [taskList, setTaskList] = useState(todos);
+  const {
+    todos,
+    dayTodos,
+    isDayTodosShown,
+    isMonthTodosLoading,
+    isDayTodosLoading,
+  } = useAppSelector((state) => state.todoReducer);
+  const [todoList, setTodoList] = useState<ITodoGetDto[]>([]);
 
-  const handleTaskCompletion = (id: string) => {
-    setTaskList((prevList) =>
-      prevList.map((task) =>
-        task.id === id ? { ...task, isCompleted: !task.flagged } : task,
-      ),
-    );
-  };
-
-  const removeTask = (id: string) => {
-    setTaskList((prevList) => prevList.filter((task) => task.id !== id));
-  };
-
-  const sortedTasks = [...taskList].sort(
-    (a, b) => (a.flagged ? 1 : 0) - (b.flagged ? 1 : 0),
-  );
+  useEffect(() => {
+    setTodoList(isDayTodosShown ? dayTodos : todos);
+  }, [todos, dayTodos, isDayTodosShown]);
 
   return (
     <Reorder.Group
-      className={cnAllTasks()}
+      className={cnTodoList()}
       axis={"y"}
-      values={sortedTasks}
+      values={todoList}
       onChange={() => {
         console.log("asdasd");
       }}
-      onReorder={setTaskList}
+      onReorder={setTodoList}
     >
-      {sortedTasks.map((task) => (
-        <Reorder.Item key={task.id} value={task}>
-          <Todo
-            {...task}
-            onCheck={handleTaskCompletion}
-            removeTask={removeTask}
-          />
-        </Reorder.Item>
-      ))}
+      <Spinner spinning={isMonthTodosLoading || isDayTodosLoading}>
+        {todoList.map((todo) => (
+          <Reorder.Item key={todo.id} value={todo}>
+            <Todo todo={todo} />
+          </Reorder.Item>
+        ))}
+      </Spinner>
     </Reorder.Group>
   );
 };

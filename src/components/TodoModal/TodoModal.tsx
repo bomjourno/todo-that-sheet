@@ -1,7 +1,7 @@
 import { cn } from "@bem-react/classname";
 import { Modal, ModalProps } from "antd";
 import { AnimatePresence } from "framer-motion";
-import { toggleModal } from "store/reducers/TodoSlice";
+import { closeModal } from "store/reducers/TodoSlice";
 
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 
@@ -16,11 +16,11 @@ const TodoModal = (props: ModalProps) => {
   const dispatch = useAppDispatch();
 
   const handleOk = () => {
-    dispatch(toggleModal());
+    dispatch(closeModal());
   };
 
   const handleCancel = () => {
-    dispatch(toggleModal());
+    dispatch(closeModal());
   };
 
   return (

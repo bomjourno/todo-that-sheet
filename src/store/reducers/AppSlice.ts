@@ -12,7 +12,7 @@ interface IProps {
 
 const initialState: IProps = {
   selectedTab: Tab.Calendar,
-  selectedDate: dayjs().format("MMMM YYYY"),
+  selectedDate: dayjs().format("YYYY-MM-DD"),
   isLoading: false,
   error: "",
 };

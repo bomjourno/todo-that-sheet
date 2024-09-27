@@ -1,13 +1,15 @@
-import { useEffect } from "react";
+import { useState } from "react";
 import { cn } from "@bem-react/classname";
 import { Badge, BadgeProps, Calendar, CalendarProps } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { setDate } from "store/reducers/AppSlice";
-import { toggleModal } from "store/reducers/TodoSlice";
+import { openModal } from "store/reducers/TodoSlice";
 
 import { ITodoGetDto } from "shared/dto/todo";
 import { useAppDispatch, useAppSelector } from "shared/hooks/redux";
 import { todoApi } from "services";
+
+import { Spinner } from "components/UIKit";
 
 import "./MainCalendar.scss";
 
@@ -29,35 +31,47 @@ const getListData = (value: Dayjs, todos: ITodoGetDto[] = []) => {
 };
 
 const MainCalendar = (props: IProps) => {
-  const selectedDate = useAppSelector((state) => state.appReducer.selectedDate);
-  const { todos } = useAppSelector((state) => state.todoReducer);
+  const [selectedDay, setSelectedDay] = useState<string | null>(null);
 
-  const { refetch } = todoApi.useGetMonthPostsQuery(selectedDate);
+  const selectedDate = useAppSelector((state) => state.appReducer.selectedDate);
+  const { todos, isMonthTodosLoading } = useAppSelector(
+    (state) => state.todoReducer,
+  );
+  const [trigger] = todoApi.useLazyGetMonthTodosQuery();
+  todoApi.useGetDayTodosQuery(selectedDay, {
+    refetchOnMountOrArgChange: true,
+    skip: !selectedDay,
+  });
 
   const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    refetch();
-  }, [selectedDate]);
+  const onSelectCell = (value: Dayjs) => {
+    const fomattedDay = dayjs(value).format("YYYY-MM-DD");
 
-  const onCellClick = (value: Dayjs) => {
-    dispatch(setDate(value.format("MMMM YYYY")));
-
+    // is changed day
     if (
       dayjs(value).isSame(selectedDate, "month") &&
       dayjs(value).isSame(selectedDate, "year")
     ) {
-      dispatch(toggleModal());
+      setSelectedDay(fomattedDay);
+      dispatch(openModal());
     }
+
+    // is changed month
+    if (
+      !dayjs(value).isSame(selectedDate, "month") ||
+      !dayjs(value).isSame(selectedDate, "year")
+    ) {
+      trigger(fomattedDay);
+    }
+
+    dispatch(setDate(fomattedDay));
   };
 
   const dateCellRender = (value: Dayjs) => {
     const listData = getListData(value, todos);
     return (
-      <ul
-        onClick={() => onCellClick(value)}
-        className={cnMainCalendar("events")}
-      >
+      <ul className={cnMainCalendar("events")}>
         {listData.map((item) => (
           <li key={item.content}>
             <Badge
@@ -78,13 +92,16 @@ const MainCalendar = (props: IProps) => {
   };
 
   return (
-    <Calendar
-      {...props}
-      className={cnMainCalendar()}
-      value={dayjs(selectedDate)}
-      headerRender={customHeader}
-      cellRender={cellRender}
-    />
+    <Spinner size={"default"} spinning={isMonthTodosLoading}>
+      <Calendar
+        {...props}
+        className={cnMainCalendar()}
+        value={dayjs(selectedDate)}
+        headerRender={customHeader}
+        onSelect={onSelectCell}
+        cellRender={cellRender}
+      />
+    </Spinner>
   );
 };
 

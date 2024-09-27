@@ -5,14 +5,20 @@ import { todoApi } from "services";
 
 interface IProps {
   todos: ITodoGetDto[];
-  isLoading: boolean;
+  dayTodos: ITodoGetDto[];
+  isDayTodosShown: boolean;
+  isMonthTodosLoading: boolean;
+  isDayTodosLoading: boolean;
   modalIsOpen: boolean;
   error: string | null;
 }
 
 const initialState: IProps = {
   todos: [],
-  isLoading: false,
+  dayTodos: [],
+  isDayTodosShown: false,
+  isMonthTodosLoading: false,
+  isDayTodosLoading: false,
   modalIsOpen: false,
   error: null,
 };
@@ -21,36 +27,67 @@ export const todoSlice = createSlice({
   name: "todo",
   initialState,
   reducers: {
-    toggleModal: (state) => {
-      state.modalIsOpen = !state.modalIsOpen;
+    openModal: (state) => {
+      state.modalIsOpen = true;
+
+      state.isDayTodosShown = true;
+    },
+    closeModal: (state) => {
+      state.modalIsOpen = false;
+
+      state.isDayTodosShown = false;
     },
   },
   extraReducers: (builder) => {
+    // get all todos
     builder.addMatcher(
-      todoApi.endpoints.getMonthPosts.matchPending,
+      todoApi.endpoints.getMonthTodos.matchPending,
       (state) => {
-        state.isLoading = true;
+        state.isMonthTodosLoading = true;
         state.error = null;
       },
     );
     builder.addMatcher(
-      todoApi.endpoints.getMonthPosts.matchFulfilled,
+      todoApi.endpoints.getMonthTodos.matchFulfilled,
       (state, { payload }) => {
-        state.todos = payload.responseObject;
-        state.isLoading = false;
+        state.todos = payload.responseObject.sort(
+          (a, b) => (a.flagged ? 1 : 0) - (b.flagged ? 1 : 0),
+        );
+        state.isMonthTodosLoading = false;
         state.error = null;
       },
     );
     builder.addMatcher(
-      todoApi.endpoints.getMonthPosts.matchRejected,
+      todoApi.endpoints.getMonthTodos.matchRejected,
       (state, { error }) => {
-        state.isLoading = false;
+        state.isMonthTodosLoading = false;
+        state.error = error?.message ?? "Something went wrong";
+      },
+    );
+
+    // get day todos
+    builder.addMatcher(todoApi.endpoints.getDayTodos.matchPending, (state) => {
+      state.isDayTodosLoading = true;
+      state.error = null;
+    });
+    builder.addMatcher(
+      todoApi.endpoints.getDayTodos.matchFulfilled,
+      (state, { payload }) => {
+        state.dayTodos = payload.responseObject;
+        state.isDayTodosLoading = false;
+        state.error = null;
+      },
+    );
+    builder.addMatcher(
+      todoApi.endpoints.getDayTodos.matchRejected,
+      (state, { error }) => {
+        state.isDayTodosLoading = false;
         state.error = error?.message ?? "Something went wrong";
       },
     );
   },
 });
 
-export const { toggleModal } = todoSlice.actions;
+export const { openModal, closeModal } = todoSlice.actions;
 
 export default todoSlice.reducer;
