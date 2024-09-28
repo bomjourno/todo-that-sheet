@@ -30,7 +30,7 @@ const TodoModal = (props: ModalProps) => {
           {...props}
           open
           footer={null}
-          title={"Basic Modal"}
+          title={"Task list"}
           className={cnTodoModal()}
           onOk={handleOk}
           onCancel={handleCancel}

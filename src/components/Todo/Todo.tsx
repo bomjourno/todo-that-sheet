@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { cn } from "@bem-react/classname";
-import { Button, MenuProps } from "antd";
+import { Button, Input, MenuProps } from "antd";
 import {
   Checkbox,
   DatePicker,
@@ -23,7 +23,7 @@ import { todoApi } from "services";
 import "./Todo.scss";
 
 interface IProps {
-  todo: ITodoGetDto;
+  todo: ITodoGetDto | null;
 }
 
 const cnTodo = cn("todo");
@@ -37,7 +37,13 @@ function* priorityToggle(): Generator<TodoPriority> {
 }
 
 const Todo = ({ todo }: IProps) => {
-  const { id, title, flagged } = todo;
+  const { id, title, flagged } = todo ?? {
+    title: "",
+    date: "",
+    flagged: false,
+    priority: 100,
+  };
+
   const { t } = useTranslation();
   const [date, setDate] = useState<Dayjs | null>(null);
   const [priority, setPriority] = useState<TodoPriority>(TodoPriority.Default);
@@ -50,6 +56,8 @@ const Todo = ({ todo }: IProps) => {
   const [deleteTodoApi] = todoApi.useDeleteTodoMutation();
   const [updateTodoApi] = todoApi.useUpdateTodoMutation();
 
+  const { TextArea } = Input;
+
   const onConfirm = (value: DatePickerProps["value"]) => {
     console.log("onOk: ", value);
   };
@@ -59,10 +67,14 @@ const Todo = ({ todo }: IProps) => {
   };
 
   const updateTask = async () => {
+    if (!todo) return;
+
     await updateTodoApi({ ...todo, flagged: !todo.flagged }).unwrap();
   };
 
   const deleteTask = async () => {
+    if (!id) return;
+
     await deleteTodoApi(id).unwrap();
   };
 
@@ -97,9 +109,22 @@ const Todo = ({ todo }: IProps) => {
       <Checkbox
         className={cnTodo({ done: flagged })}
         checked={flagged}
+        disabled={!id}
         onChange={updateTask}
       >
-        <Typography>{title}</Typography>
+        {!todo ? (
+          <TextArea
+            autoSize
+            autoFocus
+            placeholder={"Add task"}
+            variant={"borderless"}
+            className={cnTodo("input")}
+          />
+        ) : (
+          <Typography.Paragraph className={cnTodo("title")}>
+            {title}
+          </Typography.Paragraph>
+        )}
       </Checkbox>
 
       <Row className={cnTodo("actions")} align={"middle"}>

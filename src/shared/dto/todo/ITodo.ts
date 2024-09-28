@@ -16,6 +16,7 @@ export interface ITodoPostDto {
   priority: number;
   flagged: boolean;
 }
+
 export interface ITodoPatchDto {
   id: string;
   title: string;

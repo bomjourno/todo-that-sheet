@@ -33,6 +33,15 @@
     }
   }
 
+  &-input {
+    min-height: 22px !important;
+    padding: 0;
+  }
+
+  &-title {
+    margin: 0 !important;
+  }
+
   &-icon {
     width: 16px;
     cursor: pointer;
