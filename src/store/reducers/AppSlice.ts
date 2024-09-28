@@ -10,8 +10,14 @@ interface IProps {
   error: string;
 }
 
+const getSelectedTabFromStorage = (): Tab => {
+  const savedTab = localStorage.getItem("selectedTab") as Tab;
+
+  return savedTab || Tab.Calendar;
+};
+
 const initialState: IProps = {
-  selectedTab: Tab.Calendar,
+  selectedTab: getSelectedTabFromStorage(),
   selectedDate: dayjs().format("YYYY-MM-DD"),
   isLoading: false,
   error: "",
@@ -23,6 +29,8 @@ export const appSlice = createSlice({
   reducers: {
     changeTab(state, action: PayloadAction<Tab>) {
       state.selectedTab = action.payload;
+
+      localStorage.setItem("selectedTab", action.payload);
     },
     changeMainDate(state, action: PayloadAction<string>) {
       state.selectedDate = action.payload;
