@@ -31,13 +31,9 @@ const TodoList = () => {
       className={cnTodoList()}
       axis={"y"}
       values={todoList}
-      onChange={() => {
-        console.log("asdasd");
-      }}
       onReorder={setTodoList}
     >
       <Spinner spinning={isMonthTodosLoading || isDayTodosLoading}>
-        <Todo todo={null} />
         {todoList.map((todo) => (
           <Reorder.Item key={todo.id} value={todo}>
             <Todo todo={todo} />

@@ -39,7 +39,12 @@
   }
 
   &-title {
+    flex: 1;
     margin: 0 !important;
+
+    &_done {
+      text-decoration: line-through;
+    }
   }
 
   &-icon {
@@ -67,6 +72,10 @@
     cursor: pointer;
   }
 
+  &-info {
+    flex: 1;
+  }
+
   &-actions {
     gap: 8px;
     & .ant-typography {
@@ -87,10 +96,9 @@
     }
   }
 
-  &_done {
-    & .ant-typography {
-      text-decoration: line-through;
-    }
+  &-checkbox {
+    flex: 0 !important;
+    margin-right: 10px;
   }
 
   & > span:last-child {
