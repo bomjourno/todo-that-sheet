@@ -48,7 +48,7 @@ const Main = () => {
   const { selectedTab, selectedDate } = useAppSelector(
     (state) => state.appReducer,
   );
-  todoApi.useGetMonthTodosQuery(null);
+  todoApi.useGetMonthTodosQuery(selectedDate);
 
   const onChangeDate: DatePickerProps["onChange"] = (date) => {
     const formattedDate = dayjs(date).format("MMMM YYYY");
