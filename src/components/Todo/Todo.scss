@@ -7,6 +7,11 @@
     padding: 10px;
     border-bottom: 1px solid var(--gray-400);
 
+    &_template {
+      padding-right: 30px;
+      margin-bottom: 50px;
+    }
+
     & > label {
       flex: 1;
     }

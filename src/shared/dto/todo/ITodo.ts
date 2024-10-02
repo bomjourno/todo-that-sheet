@@ -15,6 +15,8 @@ export interface ITodoPostDto {
   date: string;
   priority: number;
   flagged: boolean;
+  reminder: number;
+  order: number;
 }
 
 export interface ITodoPatchDto {

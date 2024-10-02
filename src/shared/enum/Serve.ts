@@ -5,7 +5,7 @@ export enum Tab {
 }
 
 export enum TodoPriority {
-  Default = "1",
-  Middle = "2",
-  Important = "3",
+  Default = 1,
+  Middle = 2,
+  Important = 3,
 }

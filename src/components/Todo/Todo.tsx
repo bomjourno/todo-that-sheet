@@ -1,16 +1,7 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { cn } from "@bem-react/classname";
-import { Button, Input, MenuProps } from "antd";
-import {
-  Checkbox,
-  DatePicker,
-  DatePickerProps,
-  Dropdown,
-  Row,
-  Space,
-  Typography,
-} from "antd";
+import { Button, Input } from "antd";
+import { Checkbox, DatePicker, DatePickerProps, Row, Typography } from "antd";
 import dayjs, { Dayjs } from "dayjs";
 import { motion } from "framer-motion";
 
@@ -21,13 +12,14 @@ import { ReactComponent as BookMarkIcon } from "assets/icons/bookmark_filled.svg
 import { ReactComponent as TrashIcon } from "assets/icons/delete.svg";
 import { todoApi } from "services";
 
-import "./Todo.scss";
+import Reminder from "./components/Reminder";
+import TodoTemplate from "./components/TodoTemplate";
+import { cnTodo } from "./helper";
 
 interface IProps {
   todo: ITodoGetDto;
+  isTemplate?: boolean;
 }
-
-const cnTodo = cn("todo");
 
 function* priorityToggle(): Generator<TodoPriority> {
   while (true) {
@@ -37,7 +29,7 @@ function* priorityToggle(): Generator<TodoPriority> {
   }
 }
 
-const Todo = ({ todo }: IProps) => {
+const Todo = ({ todo, isTemplate = false }: IProps) => {
   const { id, title, flagged, date } = todo;
   const [newTitle, setNewTitle] = useState(title);
   const [isEdit, setIsEdit] = useState(false);
@@ -46,12 +38,8 @@ const Todo = ({ todo }: IProps) => {
 
   const { TextArea } = Input;
   const { t } = useTranslation();
-  const [selectedRemindOption, setSelectedRemindOption] = useState<{
-    id: string;
-    label: string;
-  } | null>(null);
+
   const priorityChanger = useRef(priorityToggle());
-  const isReminderVisible = date && !flagged;
 
   const [deleteTodoApi] = todoApi.useDeleteTodoMutation();
   const [updateTodoApi] = todoApi.useUpdateTodoMutation();
@@ -72,8 +60,6 @@ const Todo = ({ todo }: IProps) => {
     await updateTodoApi({ ...todo, flagged: !todo.flagged }).unwrap();
   };
 
-  const onCreateTask = () => {};
-
   const onChangeDate = (date: Dayjs, formattedDate: string | string[]) => {};
 
   const onChangeTitle = (e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -88,24 +74,7 @@ const Todo = ({ todo }: IProps) => {
     setIsEdit(false);
   };
 
-  const remindOptions: MenuProps["items"] = [
-    {
-      label: <>{t("todo.remindNone")}</>,
-      key: "0",
-    },
-    {
-      label: <>{t("todo.remind10")}</>,
-      key: "1",
-    },
-    {
-      label: <>{t("todo.remind30")}</>,
-      key: "2",
-    },
-    {
-      label: <>{t("todo.remind60")}</>,
-      key: "3",
-    },
-  ];
+  if (isTemplate) return <TodoTemplate />;
 
   return (
     <motion.div
@@ -125,9 +94,8 @@ const Todo = ({ todo }: IProps) => {
 
         {isEdit ? (
           <TextArea
-            autoSize
+            autoSize={{ maxRows: 2 }}
             autoFocus
-            onPressEnter={onCreateTask}
             value={newTitle}
             onBlur={unfocusedTitle}
             onChange={onChangeTitle}
@@ -153,42 +121,7 @@ const Todo = ({ todo }: IProps) => {
       </Row>
 
       <Row className={cnTodo("actions")} align={"middle"}>
-        {isReminderVisible && (
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.3 }}
-          >
-            <Dropdown
-              menu={{
-                items: remindOptions,
-
-                onClick: (e) => {
-                  const selectedOption = remindOptions.find(
-                    (option) => option?.key === e.key,
-                  );
-
-                  if (selectedOption && "label" in selectedOption) {
-                    setSelectedRemindOption({
-                      id: selectedOption.key?.toString() ?? "",
-                      label: selectedOption.label as string,
-                    });
-                  }
-                },
-              }}
-              trigger={["click"]}
-            >
-              <Space
-                className={cnTodo("btn")}
-                onClick={(e) => e.preventDefault()}
-              >
-                {selectedRemindOption
-                  ? selectedRemindOption.label
-                  : t("todo.remind")}
-              </Space>
-            </Dropdown>
-          </motion.div>
-        )}
+        <Reminder isVisible={!!date && !flagged} />
 
         <DatePicker
           showTime

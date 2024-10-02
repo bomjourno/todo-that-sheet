@@ -34,6 +34,7 @@ const TodoList = () => {
       onReorder={setTodoList}
     >
       <Spinner spinning={isMonthTodosLoading || isDayTodosLoading}>
+        <Todo isTemplate todo={{} as ITodoGetDto} />
         {todoList.map((todo) => (
           <Reorder.Item key={todo.id} value={todo}>
             <Todo todo={todo} />
